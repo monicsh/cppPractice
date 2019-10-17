@@ -5,8 +5,8 @@
 #include <queue>
 #include <algorithm>
 #include <unordered_map>
-//#define CATCH_CONFIG_MAIN
-//#include "catch.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
 using namespace std;
 
@@ -14,13 +14,6 @@ using namespace std;
  Problem Statement- Given a list of intervals, merge all the overlapping intervals to produce
  a list that has only mutually exclusive intervals.
  */
-//bool operator==(const Interval& l1, const Interval& l2){
-//
-//    bool result;
-//    result = (l1==l2);
-//    return result;
-//}
-
 class Interval {
  public:
   int start = 0;
@@ -69,54 +62,57 @@ public:
     }
 };
 
+bool operator==(const vector<Interval>& a, const vector<Interval>& b){
 
-int main(int argc, char *argv[]) {
-  vector<Interval> input = {{1, 3}, {2, 5}, {7, 9}};
-  cout << "Merged intervals: ";
-  for (auto interval : MergeIntervals::merge(input)) {
-    cout << "[" << interval.start << "," << interval.end << "] ";
-  }
-  cout << endl;
+    for(auto i=0; i<a.size(); i++)
+     {
+         Interval I1 = a[i];
+         Interval I2 = b[i];
+         if (I1.start != I2.start || I1.end != I2.end)
+             return false;
+     }
 
-  input = {{6, 7}, {2, 4}, {5, 9}};
-  cout << "Merged intervals: ";
-  for (auto interval : MergeIntervals::merge(input)) {
-    cout << "[" << interval.start << "," << interval.end << "] ";
-  }
-  cout << endl;
-
-  input = {{1, 4}, {2, 6}, {3, 5}};
-  cout << "Merged intervals: ";
-  for (auto interval : MergeIntervals::merge(input)) {
-    cout << "[" << interval.start << "," << interval.end << "] ";
-  }
-  cout << endl;
+    return true;
 }
 
+TEST_CASE("MergeIntervals test cases 001", "[merge]"){
+    vector<Interval> input = {{1, 3}, {2, 5}, {7, 9}};
+    vector<Interval> actual = MergeIntervals::merge(input);
 
-//TEST_CASE("MergeIntervals test cases 001", "[merge]"){
-//    vector<Interval> input = {{1, 3}, {2, 5}, {7, 9}};
-//    vector<Interval> actual = MergeIntervals::merge(input);
-//    vector<Interval> expected = {{1, 5}, {7, 9}};
-//
-//    REQUIRE(actual == expected);
-//}
+    vector<Interval> expected = {{1, 5}, {7, 9}};
 
-//TEST_CASE("MergeIntervals test cases 001", "[merge]"){
-//    vector<Interval> input = {{6, 7}, {2, 4}, {5, 9}};
-//    vector<Interval> actual = MergeIntervals::merge(input);
-//    vector<Interval> expected = {{2, 4}, {5, 9}};
-//
-//    REQUIRE(actual == expected);
-//}
-//
-//TEST_CASE("MergeIntervals test cases 001", "[merge]"){
-//    vector<Interval> input = {{1, 4}, {2, 6}, {3, 5}};
-//    vector<Interval> actual = MergeIntervals::merge(input);
-//    vector<Interval> expected = {{1, 6}};
-//
-//    REQUIRE(actual == expected);
-//}
+    REQUIRE(actual == expected);
+}
 
+TEST_CASE("MergeIntervals test cases 002", "[merge]"){
+    vector<Interval> input = {{6, 7}, {2, 4}, {5, 9}};
+    vector<Interval> actual = MergeIntervals::merge(input);
+    vector<Interval> expected = {{2, 4}, {5, 9}};
 
+    REQUIRE(actual == expected);
+}
 
+TEST_CASE("MergeIntervals test cases 003", "[merge]"){
+    vector<Interval> input = {{1, 4}, {2, 6}, {3, 5}};
+    vector<Interval> actual = MergeIntervals::merge(input);
+    vector<Interval> expected = {{1, 6}};
+
+    REQUIRE(actual == expected);
+}
+
+TEST_CASE("MergeIntervals test cases 004", "[merge]"){
+    vector<Interval> input = {{1, 4}, {2, 6}, {3, 5}};
+    vector<Interval> actual = MergeIntervals::merge(input);
+    vector<Interval> expected = {{1, 3}};
+
+    REQUIRE(actual.size() == expected.size());
+}
+
+TEST_CASE("MergeIntervals test cases 005", "[merge]"){
+    vector<Interval> input = {{1, 4}, {2, 6}, {3, 5}};
+    vector<Interval> actual = MergeIntervals::merge(input);
+    vector<Interval> expected = {{1, 5}};
+
+    REQUIRE(actual.size() == expected.size());
+    REQUIRE(!(actual == expected));
+}
