@@ -46,7 +46,7 @@ public:
         for(auto i=1; i < intervals.size(); i++)
         {
             Interval currIter = intervals[i];
-            if (mergedIntervals[write].end > currIter.start)
+            if (mergedIntervals[write].end >= currIter.start)
             {
                 // Overlapped
                 mergedIntervals[write].end = max(mergedIntervals[write].end, currIter.end);
@@ -75,8 +75,17 @@ bool operator==(const vector<Interval>& a, const vector<Interval>& b){
     return true;
 }
 
-TEST_CASE("MergeIntervals test cases 001", "[merge]"){
+TEST_CASE("MergeIntervals test cases 000", "[merge]"){
     vector<Interval> input = {{1, 3}, {2, 5}, {7, 9}};
+    vector<Interval> actual = MergeIntervals::merge(input);
+
+    vector<Interval> expected = {{1, 5}, {7, 9}};
+
+    REQUIRE(actual == expected);
+}
+
+TEST_CASE("MergeIntervals test cases 001", "[merge]"){
+    vector<Interval> input = {{1, 3}, {3, 5}, {7, 9}};
     vector<Interval> actual = MergeIntervals::merge(input);
 
     vector<Interval> expected = {{1, 5}, {7, 9}};
@@ -100,7 +109,7 @@ TEST_CASE("MergeIntervals test cases 003", "[merge]"){
     REQUIRE(actual == expected);
 }
 
-TEST_CASE("MergeIntervals test cases 004", "[merge]"){
+TEST_CASE("MergeIntervals test cases 004 -- Test Size", "[merge]"){
     vector<Interval> input = {{1, 4}, {2, 6}, {3, 5}};
     vector<Interval> actual = MergeIntervals::merge(input);
     vector<Interval> expected = {{1, 3}};
@@ -116,3 +125,5 @@ TEST_CASE("MergeIntervals test cases 005", "[merge]"){
     REQUIRE(actual.size() == expected.size());
     REQUIRE(!(actual == expected));
 }
+
+
