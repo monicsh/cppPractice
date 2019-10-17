@@ -9,6 +9,9 @@
 
 using namespace std;
 
+/*
+ Given an array, find the average of all contiguous subarrays of size ‘K’ in it.
+ */
 class AverageOfSubarrayOfSizeK {
     public:
         static vector<double> findAveragesBruteForce(int K, const vector<int>& arr) {
