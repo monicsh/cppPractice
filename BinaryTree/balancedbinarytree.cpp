@@ -23,32 +23,31 @@ public:
     }
 };
 
-int height(TreeNode * root){
-    if (root == nullptr)
-        return 0;
+bool isBalancedUtil(TreeNode* root, int & height){
+    // If tree is empty: set height & return true
+    if (root == nullptr){
+        height = -1;
+        return true;
+    }
 
-    return 1 + max(height(root->left), height(root->right));
-}
-
-bool isBalanced(TreeNode* root){
-    // left and right subtree height
     int leftHt;
     int rightHt;
-
-    // Check if tree is empty
-    if (root == nullptr)
+    if (isBalancedUtil(root->left, leftHt) &&
+        isBalancedUtil(root->right, rightHt) &&
+        abs(leftHt-rightHt) <= 1)
+    {
+        height = 1 + max(leftHt, rightHt);
         return true;
-
-    // Calculate height of left and right subtree
-    leftHt = height(root->left);
-    rightHt = height(root->right);
-
-    // determine if tree is height-balanced
-    if(abs(leftHt - rightHt) <=1 && isBalanced(root->left) && isBalanced(root->right))
-        return true;
+    }
 
     return false;
 }
+
+bool isBalanced(TreeNode* root){
+    int height;
+    return isBalancedUtil(root, height);
+}
+
 
 
 TEST_CASE("Balanced Tree TC001", "[isBalanced]"){
