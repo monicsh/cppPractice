@@ -21,15 +21,22 @@ int LPS_Memo(string s, int start, int end) {
 
 int LPS_Tab(string s) {
     int n = s.size();
+    if(n < 2)
+        return n;
+
     vector<vector<int>> DP(n, vector<int>(n, 0));
 
-    for(int i=0; i<n;i++)
+    for(auto i=0; i<n; i++)
         DP[i][i] = 1;
 
-    if ( s[i] == s[j] )
-               DP[i][j] = 2 + DP[i-1][j-1];
-           else
-               DP[i][j] = max(DP[i][j-1], DP[i+1][j]);
+    for(auto i=n-2; i>=0; i--)
+        for(auto j=i+1; j<n; j++){
+            if(s[i] == s[j])
+                DP[i][j] = 2 + DP[i+1][j-1];
+            else
+                DP[i][j] = max(DP[i][j-1], DP[i+1][j]);
+        }
+
     return DP[0][n-1];
 }
     
@@ -49,7 +56,7 @@ TEST_CASE("longestPalindrome test cases 001", "[longestPalindrome]"){
 }
 
 TEST_CASE("longestPalindrome very long string test cases 004", "[]"){
-	REQUIRE(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew") == 20);
+	REQUIRE(longestPalindromeSubsequence("euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew") == 159);
 }
 
 TEST_CASE("longestPalindrome test cases 002", "[longestPalindrome]"){
